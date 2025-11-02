@@ -1,0 +1,20 @@
+namespace ProductCatalog.Application.Common.Results;
+
+public class Result
+{
+    protected Result(bool isSuccess, string? error)
+    {
+        if (isSuccess && error != null || !isSuccess && error == null)
+            throw new InvalidOperationException();
+
+        IsSuccess = isSuccess;
+        Error = error;
+    }
+
+    public bool IsSuccess { get; }
+    public bool IsFailure => !IsSuccess;
+    public string? Error { get; }
+
+    public static Result Success() => new(true, null);
+    public static Result Failure(string error) => new(false, error);
+}
